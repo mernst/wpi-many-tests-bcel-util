@@ -30,6 +30,9 @@ import org.apache.bcel.generic.Type;
 import org.plumelib.reflection.ReflectionPlume;
 import org.plumelib.reflection.Signatures;
 
+import org.checkerframework.checker.signature.qual.BinaryName;
+import org.checkerframework.checker.signature.qual.FqBinaryName;
+
 /** Static utility methods for working with BCEL. */
 public final class BcelUtil {
   /** This class is a collection of methods; it does not represent anything. */
@@ -753,7 +756,7 @@ public final class BcelUtil {
       return Type.SHORT;
     } else {
       @SuppressWarnings("signature") // It's not a primitive, so it's a proper binary name.
-      String binaryName = classname;
+      @BinaryName String binaryName = classname;
       return new ObjectType(binaryName);
     }
   }
@@ -765,7 +768,7 @@ public final class BcelUtil {
    *     nested classes
    * @return the type corresponding to the given name
    */
-  public static Type fqBinaryNameToType(String classname) {
+  public static Type fqBinaryNameToType(@FqBinaryName String classname) {
 
     Signatures.ClassnameAndDimensions cad =
         Signatures.ClassnameAndDimensions.parseFqBinaryName(classname);
