@@ -2,8 +2,6 @@ package org.plumelib.bcelutil;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.checkerframework.checker.formatter.qual.FormatMethod;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A logging class with the following features:
@@ -28,7 +26,7 @@ public final class SimpleLog {
    * Cache for the current indentation string, or null if needs to be recomputed. Never access this
    * directly; always call {@link #getIndentString}.
    */
-  private @Nullable String indentString = null;
+  private String indentString = null;
   /** Cache of indentation strings that have been computed so far. */
   private List<String> indentStrings;
 
@@ -65,8 +63,7 @@ public final class SimpleLog {
    * @param format format string for message
    * @param args values to be substituted into format
    */
-  @FormatMethod
-  public void log(String format, @Nullable Object... args) {
+  public void log(String format, Object... args) {
     if (enabled) {
       System.out.print(getIndentString());
       System.out.printf(format, args);

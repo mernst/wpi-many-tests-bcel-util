@@ -27,12 +27,6 @@ import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.RETURN;
 import org.apache.bcel.generic.Type;
-import org.checkerframework.checker.index.qual.SameLen;
-import org.checkerframework.checker.signature.qual.BinaryName;
-import org.checkerframework.checker.signature.qual.BinaryNameOrPrimitiveType;
-import org.checkerframework.checker.signature.qual.ClassGetName;
-import org.checkerframework.checker.signature.qual.FqBinaryName;
-import org.checkerframework.checker.signature.qual.InternalForm;
 import org.plumelib.reflection.ReflectionPlume;
 import org.plumelib.reflection.Signatures;
 
@@ -265,7 +259,7 @@ public final class BcelUtil {
    *     an array
    * @return true iff the class is in a package that is in the JDK (rt.jar)
    */
-  public static boolean inJdk(@ClassGetName String classname) {
+  public static boolean inJdk(String classname) {
     if (classname.startsWith("java.")
         || classname.startsWith("com.sun.")
         || classname.startsWith("javax.")
@@ -295,7 +289,7 @@ public final class BcelUtil {
    * @param classname the class to test, in internal form
    * @return true iff the class is part of the JDK (rt.jar)
    */
-  public static boolean inJdkInternalform(@InternalForm String classname) {
+  public static boolean inJdkInternalform(String classname) {
     if (classname.startsWith("java/")
         || classname.startsWith("com/sun/")
         || classname.startsWith("javax/")
@@ -596,8 +590,8 @@ public final class BcelUtil {
   public static void resetLocalsToFormals(MethodGen mg) {
 
     // Get the parameter types and names.
-    Type @SameLen({"argTypes", "mg.getArgumentTypes()"}) [] argTypes = mg.getArgumentTypes();
-    String @SameLen({"argTypes", "argNames", "mg.getArgumentTypes()", "mg.getArgumentNames()"}) []
+    Type [] argTypes = mg.getArgumentTypes();
+    String []
         argNames = mg.getArgumentNames();
 
     // Remove any existing locals
@@ -659,7 +653,7 @@ public final class BcelUtil {
    * @param type the type
    * @return the Java classname that corresponds to type
    */
-  public static @ClassGetName String typeToClassgetname(Type type) {
+  public static String typeToClassgetname(Type type) {
     String signature = type.getSignature();
     return Signatures.fieldDescriptorToClassGetName(signature);
   }
@@ -725,7 +719,7 @@ public final class BcelUtil {
    */
   // TODO: Poor name because this handles any non-array, not just classes.
   @Deprecated // use binaryNameToType
-  public static Type classnameToType(@BinaryNameOrPrimitiveType String classname) {
+  public static Type classnameToType(String classname) {
     return binaryNameToType(classname);
   }
 
@@ -737,7 +731,7 @@ public final class BcelUtil {
    * @return the type corresponding to the given class name
    * @see #fqBinaryNameToType
    */
-  public static Type binaryNameToType(@BinaryNameOrPrimitiveType String classname) {
+  public static Type binaryNameToType(String classname) {
 
     classname = classname.intern();
 
@@ -759,7 +753,7 @@ public final class BcelUtil {
       return Type.SHORT;
     } else {
       @SuppressWarnings("signature") // It's not a primitive, so it's a proper binary name.
-      @BinaryName String binaryName = classname;
+      String binaryName = classname;
       return new ObjectType(binaryName);
     }
   }
@@ -771,7 +765,7 @@ public final class BcelUtil {
    *     nested classes
    * @return the type corresponding to the given name
    */
-  public static Type fqBinaryNameToType(@FqBinaryName String classname) {
+  public static Type fqBinaryNameToType(String classname) {
 
     Signatures.ClassnameAndDimensions cad =
         Signatures.ClassnameAndDimensions.parseFqBinaryName(classname);
