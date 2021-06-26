@@ -68,6 +68,18 @@ tasks.withType(JavaCompile).configureEach {
     // Code copied from BCEL that we don't want to change gratuitously.
     excludedPaths = ".*/org/plumelib/bcelutil/StackVer.java"
   }
+  if (JavaVersion.current() == JavaVersion.VERSION_16) {
+    options.fork = true
+    options.forkOptions.jvmArgs += [
+            "--add-opens", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+            "--add-opens", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+            "--add-opens", "jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+            "--add-opens", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+            "--add-opens", "jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+            "--add-opens", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+            "--add-opens", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+    ]
+  }
 }
 
 /// Checker Framework pluggable type-checking
