@@ -10,7 +10,7 @@ plugins {
   // id 'com.github.sherter.google-java-format' version '0.7.1'
 
   // Error Prone linter
-  id("net.ltgt.errorprone") version "1.2.1"
+  id("net.ltgt.errorprone") version "2.0.2"
 
   // Checker Framework pluggable type-checking
   // id 'org.checkerframework' version '0.5.13'
@@ -57,7 +57,7 @@ test {
 /// Error Prone linter
 
 dependencies {
-  errorprone("com.google.errorprone:error_prone_core:2.6.0")
+  errorprone("com.google.errorprone:error_prone_core:2.9.0")
   // JDK 8 support for Error Prone:
   errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 }
@@ -68,7 +68,7 @@ tasks.withType(JavaCompile).configureEach {
     // Code copied from BCEL that we don't want to change gratuitously.
     excludedPaths = ".*/org/plumelib/bcelutil/StackVer.java"
   }
-  if (JavaVersion.current() == JavaVersion.VERSION_16) {
+  if (JavaVersion.current() >= JavaVersion.VERSION_16) {
     options.fork = true
     options.forkOptions.jvmArgs += [
             "--add-opens", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
