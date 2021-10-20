@@ -27,11 +27,10 @@ import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.RETURN;
 import org.apache.bcel.generic.Type;
-import org.plumelib.reflection.ReflectionPlume;
-import org.plumelib.reflection.Signatures;
-
 import org.checkerframework.checker.signature.qual.BinaryName;
 import org.checkerframework.checker.signature.qual.FqBinaryName;
+import org.plumelib.reflection.ReflectionPlume;
+import org.plumelib.reflection.Signatures;
 
 /** Static utility methods for working with BCEL. */
 public final class BcelUtil {
@@ -359,7 +358,8 @@ public final class BcelUtil {
     }
 
     try {
-      mgen.toString(); // ensure it can be formatted without exceptions
+      @SuppressWarnings("UnusedVariable")
+      String ignore = mgen.toString(); // ensure it can be formatted without exceptions
       mgen.getLineNumberTable(mgen.getConstantPool());
 
       InstructionList ilist = mgen.getInstructionList();
@@ -593,9 +593,8 @@ public final class BcelUtil {
   public static void resetLocalsToFormals(MethodGen mg) {
 
     // Get the parameter types and names.
-    Type [] argTypes = mg.getArgumentTypes();
-    String []
-        argNames = mg.getArgumentNames();
+    Type[] argTypes = mg.getArgumentTypes();
+    String[] argNames = mg.getArgumentNames();
 
     // Remove any existing locals
     mg.setMaxLocals(0);
@@ -721,6 +720,7 @@ public final class BcelUtil {
    * @deprecated use {@link #binaryNameToType}
    */
   // TODO: Poor name because this handles any non-array, not just classes.
+  @SuppressWarnings("InlineMeSuggester")
   @Deprecated // use binaryNameToType
   public static Type classnameToType(String classname) {
     return binaryNameToType(classname);
