@@ -1,5 +1,6 @@
 package org.plumelib.bcelutil;
 
+import com.google.errorprone.annotations.InlineMe;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -27,11 +28,10 @@ import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.RETURN;
 import org.apache.bcel.generic.Type;
-import org.plumelib.reflection.ReflectionPlume;
-import org.plumelib.reflection.Signatures;
-
 import org.checkerframework.checker.signature.qual.BinaryName;
 import org.checkerframework.checker.signature.qual.FqBinaryName;
+import org.plumelib.reflection.ReflectionPlume;
+import org.plumelib.reflection.Signatures;
 
 /** Static utility methods for working with BCEL. */
 public final class BcelUtil {
@@ -359,7 +359,8 @@ public final class BcelUtil {
     }
 
     try {
-      mgen.toString(); // ensure it can be formatted without exceptions
+      @SuppressWarnings("UnusedVariable")
+      String ignore = mgen.toString(); // ensure it can be formatted without exceptions
       mgen.getLineNumberTable(mgen.getConstantPool());
 
       InstructionList ilist = mgen.getInstructionList();
@@ -722,6 +723,9 @@ public final class BcelUtil {
    */
   // TODO: Poor name because this handles any non-array, not just classes.
   @Deprecated // use binaryNameToType
+  @InlineMe(
+      replacement = "BcelUtil.binaryNameToType(classname)",
+      imports = "org.plumelib.bcelutil.BcelUtil")
   public static Type classnameToType(String classname) {
     return binaryNameToType(classname);
   }
@@ -772,7 +776,7 @@ public final class BcelUtil {
 
     Signatures.ClassnameAndDimensions cad =
         Signatures.ClassnameAndDimensions.parseFqBinaryName(classname);
-    Type eltType = classnameToType(cad.classname);
+    Type eltType = binaryNameToType(cad.classname);
     if (cad.dimensions == 0) {
       return eltType;
     } else {
