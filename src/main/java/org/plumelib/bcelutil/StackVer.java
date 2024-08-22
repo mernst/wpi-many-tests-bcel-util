@@ -155,12 +155,12 @@ public final class StackVer {
   /** In DEBUG mode, the verification algorithm is not randomized. */
   private static final boolean DEBUG = true;
 
-  /** The Verifier that created this. */
+  // /** The Verifier that created this. */
   /*
   private final Verifier myOwner;
   */
 
-  /** The method number to verify. */
+  // /** The method number to verify. */
   /*
   private final int method_no;
   */
@@ -513,7 +513,7 @@ public final class StackVer {
     return VerificationResult.VR_OK;
   }
 
-  /** Returns the method number as supplied when instantiating. */
+  // /** Returns the method number as supplied when instantiating. */
   /* Removed from StackVer
   public int getMethodNo() {
     return method_no;
